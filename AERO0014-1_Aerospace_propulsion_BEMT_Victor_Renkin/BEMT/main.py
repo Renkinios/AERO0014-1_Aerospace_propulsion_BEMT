@@ -38,6 +38,8 @@ if Question_1:
     wind_speed = 90 * 0.44704
     clark_y.collective_pitcth_0_75 = np.radians(25)
     mass_flow, thrust, power, couple, drag, dT, dP, r, aoa, Ren = blade_element_method(wind_speed, clark_y,cl_interpolator,cd_interpolator)
+    # aoa = np.linspace(-np.pi/2,np.pi/2,100)
+    # Ren = np.linspace(np.min(Ren),np.max(Ren),100)
     cl = cl_interpolator((aoa,Ren))
     cd = cd_interpolator((aoa,Ren))
     aoa = np.degrees(aoa)
@@ -45,6 +47,7 @@ if Question_1:
     cd_app    = 0.0006 *aoa**2 - 0.0042 *aoa + 0.0050
     plot_cl_app(aoa, cl_app, cl)
     plot_cd_app(aoa, cd_app, cd)
+    plot_Re(aoa, Ren)
 if Question_2:
     trust = np.zeros(2)
     power = np.zeros(2)
@@ -84,9 +87,9 @@ if Question_2:
 # . Compare your results with the experimental results.
 
 
-if Question_2:
+if Question_3:
     nb_airspeeds     = 40
-    min_airspeed     = 30 * 0.44704
+    min_airspeed     = 45 * 0.44704
     max_airspeed     = 115 * 0.44704
     airspeeds_matrix = np.linspace(min_airspeed,max_airspeed,nb_airspeeds)
 
@@ -108,6 +111,7 @@ if Question_2:
 
     for i in range(len(colective_pitch_0_75)):
         if colective_pitch_0_75[i] < 25:
+            
             clark_y.RPM   = 1000
             clark_y.RPS   = clark_y.RPM / 60
             clark_y.omega = clark_y.RPS  * 2 * np.pi
@@ -128,6 +132,7 @@ if Question_2:
                 clark_y.omega = clark_y.RPS  * 2 * np.pi
             else : 
                 airspeeds = airspeeds_matrix[j]
+        
             clark_y.collective_pitcth_0_75 = np.radians(colective_pitch_0_75[i])
             mass_flow, thrust, power, couple, drag, T_span, P_span,r, _, _ = blade_element_method(airspeeds, clark_y,cl_interpolator, cd_interpolator)
             J_coef,CT_coef,CP_coef,eta_coef = perfo_coeff(clark_y,thrust,power,airspeeds)
@@ -140,7 +145,7 @@ if Question_2:
             if eta[i][j] < 0 or CT[i][j] < 0 or CP[i][j] < 0:
                 eta[i][j] = 0
                 break
-    
+
     # plot_question_2_general(J,m_flow,colective_pitch_0_75,"masse_flow")
     plot_eta_advance_ratio(J,eta,colective_pitch_0_75)
     plot_CT_advance_ratio(J,CT,colective_pitch_0_75)

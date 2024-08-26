@@ -128,9 +128,9 @@ def plot_eta_advance_ratio(advance_ratio, eta, colective_pitch):
     # Génère une palette de couleurs pour le nombre de séries de données
     color_palette = plt.get_cmap('tab10')
 
-    for i in range(0, len(colective_pitch)):
+    for i in range(len(colective_pitch)):
         eta_i = np.array(eta[i]) 
-        plt.plot(advance_ratio[i], eta_i, label=rf"$\theta_{{0.75}} = {colective_pitch[i]}^\circ$", color=color_palette(i), linewidth=2, markersize=5)
+        plt.plot(advance_ratio[i], eta_i, label=rf"$\theta_{{75}} = {colective_pitch[i]}^\circ$", color=color_palette(i), linewidth=2, markersize=5)
         if colective_pitch[i] in [15, 20, 25, 30, 35, 40, 45]:
             data = "data_naca/eta_naca/theta_" + str(colective_pitch[i]) + "_eta.txt"
             x,y = lire_fichier(data)
@@ -162,7 +162,7 @@ def plot_CT_advance_ratio(advance_ratio,CT,colective_pitch) :
 
     for i in range(0, len(colective_pitch)):
         CT_i = np.array(CT[i])
-        plt.plot(advance_ratio[i], CT_i, label=rf"$\theta_{{0.75}} = {colective_pitch[i]}^\circ$", color=color_palette(i), linewidth=2, markersize=5)
+        plt.plot(advance_ratio[i], CT_i, label=rf"$\theta_{{75}} = {colective_pitch[i]}^\circ$", color=color_palette(i), linewidth=2, markersize=5)
         if colective_pitch[i] in [15, 20, 25, 30, 35, 40, 45]:
 
             data = "data_naca/CT_naca/CT_" + str(colective_pitch[i]) + ".txt"
@@ -198,7 +198,7 @@ def plot_CP_advance_ratio(advance_ratio,CP,colective_pitch) :
 
     for i in range(0, len(colective_pitch)):
         CP_i = np.array(CP[i])
-        plt.plot(advance_ratio[i], CP_i, label=rf"$\theta_{{0.75}} = {colective_pitch[i]}^\circ$", color=color_palette(i), linewidth=2, markersize=5)
+        plt.plot(advance_ratio[i], CP_i, label=rf"$\theta_{{75}} = {colective_pitch[i]}^\circ$", color=color_palette(i), linewidth=2, markersize=5)
         if colective_pitch[i] in [15, 20, 25, 30, 35, 40, 45]:
             data = "data_naca/CP_naca/CP_" + str(colective_pitch[i]) + ".txt"
             x,y = lire_fichier(data)
@@ -230,38 +230,51 @@ def plot_CP_advance_ratio(advance_ratio,CP,colective_pitch) :
 #     for i in range(len(CP)):
 #         plt.plot(J[i], CP[i], label=f"Collective pitch: {i}°", color=color_palette(i), linewidth=2, markersize=5)
 
-import matplotlib.pyplot as plt
+
 
 def plot_cl_app(aoa, cl_app, cl):
-    plt.figure(figsize=(14, 8))  # Set figure size
     plt.plot(aoa, cl, label=r"Clark Y - $c_l$", color='b', linestyle='-', linewidth=2)
     plt.plot(aoa, cl_app, label=r"Polynomial Approximation - $c_l$", color='r', linestyle='--', linewidth=2)
-    plt.xlabel(r"Angle of Attack ($\alpha$) [degrees]", fontsize=14)
-    plt.ylabel(r"Lift Coefficient ($c_l$) [-]", fontsize=14)
+    plt.xlabel(r"Angle of Attack ($\alpha$) [degrees]", fontsize=12)
+    plt.ylabel(r"Lift Coefficient ($c_l$) [-]", fontsize=12)
     # plt.title(r"Comparison of Lift Coefficients vs. $\alpha$", fontsize=16)
-    plt.legend(fontsize=12)
+    plt.legend(fontsize='x-large')
     # plt.grid(True)  # Add grid
-    plt.xticks(fontsize=12)
-    plt.yticks(fontsize=12)
-    plt.tight_layout()  # Ajuste automatiquement les paramètres du subplot pour donner un padding spécifié
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.tight_layout()  # Adjusts the padding for the subplot
     # plt.show()
-    plt.savefig("figure/BEM/question_1/CP_app.pdf", bbox_inches='tight', dpi=300, format='pdf')
+    plt.savefig("figure/BEM/question_1/Cl_app.pdf", bbox_inches='tight', dpi=300, format='pdf')
     plt.close()
 
 def plot_cd_app(aoa, cd_app, cd):
-    plt.figure(figsize=(14, 8))  # Set figure size
     plt.plot(aoa, cd, label=r"Clark Y - $c_d$", color='b', linestyle='-', linewidth=2)
     plt.plot(aoa, cd_app, label=r"Polynomial Approximation - $c_d$", color='r', linestyle='--', linewidth=2)
-    plt.xlabel(r"Angle of Attack ($\alpha$) [degrees]", fontsize=14)
-    plt.ylabel(r"Drag Coefficient ($c_d$) [-]", fontsize=14)
+    plt.xlabel(r"Angle of Attack ($\alpha$) [degrees]", fontsize=12)
+    plt.ylabel(r"Drag Coefficient ($c_d$) [-]", fontsize=12)
     # plt.title(r"Comparison of Drag Coefficients vs. $\alpha$", fontsize=16)
-    plt.legend(fontsize=12)
+    plt.legend(fontsize='x-large')
     # plt.grid(True)  # Add grid
-    plt.xticks(fontsize=12)
-    plt.yticks(fontsize=12)
-    plt.tight_layout()  # Ajuste automatiquement les paramètres du subplot pour donner un padding spécifié
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.tight_layout()  # Adjusts the padding for the subplot
     # plt.show()
     plt.savefig("figure/BEM/question_1/CD_app.pdf", bbox_inches='tight', dpi=300, format='pdf')
     plt.close()
+
+def plot_Re(aoa, Re) :
+    plt.plot(aoa, Re, color='b', linestyle='-', linewidth=2)
+    plt.xlabel(r"Angle of Attack ($\alpha$) [degrees]", fontsize=12)
+    plt.ylabel(r"Reynolds Number [-]", fontsize=12)
+    # plt.title(r"Comparison of Drag Coefficients vs. $\alpha$", fontsize=16)
+    plt.legend(fontsize='x-large')
+    # plt.grid(True)  # Add grid
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.tight_layout()  # Adjusts the padding for the subplot
+    # plt.show()
+    plt.savefig("figure/BEM/question_1/Re.pdf", bbox_inches='tight', dpi=300, format='pdf')
+    plt.close()
+
 
 
